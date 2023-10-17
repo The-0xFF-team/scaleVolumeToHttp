@@ -24,7 +24,7 @@ public class SerialReader : BackgroundService
         var serialPort = new SerialPort
         {
             BaudRate = 115200,
-            PortName = "COM3",
+            PortName = "COM1",
             ReadTimeout = 5000,
             WriteTimeout = 5000
         };
