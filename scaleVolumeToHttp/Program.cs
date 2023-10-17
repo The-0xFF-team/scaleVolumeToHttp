@@ -1,6 +1,3 @@
-using System.Xml.Serialization;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using scaleVolumeToHttp;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +9,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddHostedService(sp => sp.GetRequiredService<SerialReader>());
 builder.Services.AddSingleton<SerialReader>();
-
 
 
 var app = builder.Build();
@@ -28,8 +24,10 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
-app.MapGet("/", (SerialReader serialReader) => Results.Ok(new { serialReader.GlassIsPresent, Consumption = serialReader.Consumed }))
-.WithName("GetSerialNumber")
-.WithOpenApi();
+app.MapGet("/",
+        (SerialReader serialReader) =>
+            Results.Ok(new { serialReader.GlassIsPresent, Consumption = serialReader.Consumed }))
+    .WithName("GetSerialNumber")
+    .WithOpenApi();
 
 app.Run();

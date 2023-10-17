@@ -6,8 +6,8 @@ namespace scaleVolumeToHttp;
 
 public class SerialReader : BackgroundService
 {
-    private readonly ILogger<SerialReader> _logger;
     private const double Threshold = -100d;
+    private readonly ILogger<SerialReader> _logger;
 
     public SerialReader(ILogger<SerialReader> logger)
     {
@@ -56,12 +56,13 @@ public class SerialReader : BackgroundService
         for (var i = 0; i < Readings.Count; i++)
         {
             var nextValue = Readings.Skip(i).FirstOrDefault(r => r.VolumeInMl > Threshold)?.VolumeInMl ?? 0d;
-            if (Readings[i].VolumeInMl <= Threshold && i-1 >=0 && Readings[i - 1].VolumeInMl > Threshold)
+            if (Readings[i].VolumeInMl <= Threshold && i - 1 >= 0 && Readings[i - 1].VolumeInMl > Threshold)
             {
                 var values = new ValuesAroundThreshold(Readings[i - 1].VolumeInMl, nextValue);
                 result.Add(values);
             }
         }
+
         return result;
     }
 
